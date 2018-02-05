@@ -1,32 +1,35 @@
-import React, { Component } from 'react';
-import Table from '../Table';
-import Detail from '../Detail';
-import AddUser from '../AddUser';
-import EditUser from '../EditUser';
-import { USER_FETCH_SUCCESS, SELECT_USER, ADD_USER, SHOW_TABLE, EDIT_USER, DELETE_USER } from './actions'
+import {PAGE_LOAD, PEOPLE_RESPONSE_RECEIVED,PERSON_SELECTED,CLEAR_FILMS,FILM_LOADING,FILM_RESPONSE_RECEIVED} from './actions';
 
-const initalState = {
-    selectedUser: undefined,
-    users: [],
-    currentPage: <Table />,
-    deletedUser: undefined
+const initialState = {
+  peopleList: [],
+  loadingPeopleStatus: "",
+  personSelected: null,
+  loadingFilmDataStatus: "",
+  films: []
+};
+
+function reducer(state = initialState, action) {
+  switch (action.type) {
+    case PAGE_LOAD:
+      return { ...state, loadingPeopleStatus: "loading" };
+    case PEOPLE_RESPONSE_RECEIVED:
+        if (action.payload)
+            return { ...state, loadingPeopleStatus: "loaded", peopleList: action.payload };
+        else
+            return { ...state, loadingPeopleStatus: "horribly wrong" };
+    case PERSON_SELECTED:
+            return { ...state, personSelected: action.payload, loadingFilmDataStatus: ""};
+    case CLEAR_FILMS:
+            return { ...state, personSelected: null, loadingFilmDataStatus: "", films:[]}
+    case FILM_LOADING:
+            return { ...state, loadingFilmDataStatus: "loading"}
+    case FILM_RESPONSE_RECEIVED:
+                let tempArray = state.films.slice();
+                tempArray.push(action.payload)
+                return { ...state, loadingFilmDataStatus: "loaded", films: tempArray};
+    default:
+      return state;
+  }
 }
-function reducer(state = initalState, action) {
-    switch (action.type) {
-        case USER_FETCH_SUCCESS:
-            return { ...state, users: action.payload }
-        case SELECT_USER:
-            return { ...state, selectedUser: action.payload, currentPage: <Detail /> }
-        case ADD_USER:
-            return { ...state, currentPage: <AddUser /> }
-        case SHOW_TABLE:
-            return {...state, currentPage: <Table />, selectedUser: undefined }
-        case EDIT_USER:
-            return {...state, selectedUser: action.payload, currentPage: <EditUser />}
-        case DELETE_USER:
-            return {...state, deletedUser: action.payload, currentPage: <Table />}
-        default:
-            return state;
-    }
-}
+
 export default reducer;

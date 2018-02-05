@@ -7,24 +7,36 @@ export const CLEAR_FILMS = "CLEAR_FILMS"
 export const FILM_LOADING = "FILM_LOADING"
 export const FILM_RESPONSE_RECEIVED = "FILM_RESPONSE_RECEIVED"
 
-function loadUsers() {
+function loadPeople() {
   return (dispatch, getState, api) => {
-    axios.get('http://5a747e5b61c2a40012894ab4.mockapi.io/api/v1/users')
-      .then(({ data: users }) => {
-        dispatch({type: USER_FETCH_SUCCESS, payload: users})
-      })
+    const promise = axios.get(api);
+
+    promise.then(data => {
+      dispatch({ type: PEOPLE_RESPONSE_RECEIVED, payload: data.data })
+
+    }, () => { })
+
+    promise.catch(data => {
+      dispatch({ type: PEOPLE_RESPONSE_RECEIVED, payload: data.data })
+
+    })
   }
 }
 
-function deleteUserFromList(userId){
+function getFilmsAndDescriptionsFromURLs(filmURL) {
   return (dispatch, getState, api) => {
-  axios.delete('http://5a747e5b61c2a40012894ab4.mockapi.io/api/v1/users/' + userId)
-    .then((response) => {
-      dispatch({type: DELETE_USER, payload: response.data})
-      dispatch(loadUsers())
-    }
-    )
+    dispatch({ type: FILM_LOADING });
+
+    const promise = axios.get(filmURL);
+
+    promise.then(data => {
+      dispatch({ type: FILM_RESPONSE_RECEIVED, payload: data.data });
+    }, () => { })
+
+    promise.catch(data => {
+      dispatch({ type: FILM_RESPONSE_RECEIVED, payload: data.data });
+    })
   }
 }
 
-export { loadUsers, deleteUserFromList }
+export { loadPeople, getFilmsAndDescriptionsFromURLs }
