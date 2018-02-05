@@ -16,7 +16,7 @@ function reducer(state = initialState, action) {
         if (action.payload)
             return { ...state, loadingPeopleStatus: "loaded", peopleList: action.payload };
         else
-            return { ...state, loadingPeopleStatus: "horribly wrong" };
+            return { ...state, loadingPeopleStatus: "failed" };
     case PERSON_SELECTED:
             return { ...state, personSelected: action.payload, loadingFilmDataStatus: ""};
     case CLEAR_FILMS:

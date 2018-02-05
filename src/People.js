@@ -1,6 +1,6 @@
 import './App.css'
 import React, { Component } from 'react';
-import { loadPeople, getFilmsAndDescriptionsFromURLs } from './state/actions';
+import { loadPeople, getFilmsAndDescriptionsFromURLs } from './state/middleware';
 import { connect } from 'react-redux';
 import female from './img/Female-Avatar.png'
 import male from './img/Male-Avatar.png'
@@ -31,6 +31,9 @@ class People extends Component {
     let list = null;
     if (this.props.peopleList)
       list = this.props.peopleList.map((person, id) => <img alt="Error." key={id} onClick={() => this.getFilmsToDisplay(person)} src={person.gender === "Female" ? female : male}></img>)
+    if (this.props.loadingPeopleStatus === "failed") {
+      list = "Failed to load People"
+    }
     return (
       <div className="top">
         <div className="peopleContainer">
@@ -44,7 +47,8 @@ class People extends Component {
 const mapStateToProps = (state) => {
   return {
     peopleList: state.peopleList,
-    loadingFilmDataStatus: state.loadingFilmDataStatus
+    loadingFilmDataStatus: state.loadingFilmDataStatus,
+    loadingPeopleStatus: state.loadingPeopleStatus
   };
 };
 

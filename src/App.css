@@ -1,28 +1,41 @@
-.App {
+.top{
+  display:flex;
+  justify-content: center
+}
+.peopleContainer{
+  width: 455px;
+
+}
+
+.bottom {
+  border-top: 1px solid black;
+}
+
+.clearButton {
+  vertical-align: top;
+  text-align: start;
+  display: inline-block;
+  width: 20%;
   text-align: center;
+  padding-top: 25px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.filmDescLabel {
+  vertical-align: top;
+  display: inline-block;
+  width: 20%;
+  text-align: center;
+  padding-top: 25px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.filmDescriptions {
+  vertical-align: top;
+  padding-top: 25px;
+  display: inline-block;
+  width: 60%;
+  margin-bottom: 25px;
 }
 
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.film {
+  padding-bottom: 25px;
 }
